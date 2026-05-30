@@ -1,6 +1,6 @@
-# 🔍 X-Ray Search Pro
+# 🎯 Sniper Search Pro
 
-> **Transformez vos mots-clés bruts en requêtes Google ultra-optimisées** — Recherche X-Ray multi-plateformes avec export PDF.
+> **Transformez vos mots-clés en requêtes Google ultra-optimisées** — 6 modes de recherche spécialisés avec export PDF.
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io)
 ![Python](https://img.shields.io/badge/Python-3.9+-blue)
@@ -10,70 +10,99 @@
 
 ## ✨ Fonctionnalités
 
-- 🎯 **5 paramètres de recherche** : mots-clés, poste, localisation, niveau d'études, employeur
-- 🔤 **Guillemets automatiques** sur chaque mot-clé pour une correspondance exacte
-- 🌐 **10+ réseaux supportés** : LinkedIn, GitHub, Stack Overflow, Twitter/X, Wellfound, Dribbble, Behance…
-- 🎨 **4 variantes** générées automatiquement selon l'intention (général, achat, app, pro)
-- ➖ **Exclusions intelligentes** par défaut + personnalisables
+- 🎯 **6 onglets thématiques** : chaque onglet a ses inclusions et exclusions optimisées par défaut
+- 🔤 **Guillemets automatiques** : chaque expression entre virgules → `"expression"` + `OR`
+- 🌐 **8 réseaux** : LinkedIn, GitHub, Stack Overflow, Twitter/X, Wellfound, Dribbble, Behance, Google
 - 📄 **Export PDF** professionnel avec guide des opérateurs
-- 🔗 **Liens directs Google** pour chaque requête générée
+- 🔗 **Lien direct Google** pour chaque requête générée
+- 💡 **Exemples intégrés** dans chaque onglet
 
-## 🚀 Déploiement rapide
+---
 
-### Streamlit Cloud
+## 🗂️ Les 6 onglets
 
-1. Fork ce dépôt
-2. Connectez-vous sur [share.streamlit.io](https://share.streamlit.io)
-3. Sélectionnez votre fork → `app.py` → Deploy
+| Onglet | Usage | Inclusions auto |
+|--------|-------|-----------------|
+| 🎓 **Étudiant & Emploi** | Stages, alternances, job dating | `+Master2 +étudiant +Paris +2026` |
+| 💰 **Financement & Bourses** | Bourses, prêts étudiants, aides | `+France +2026 +Master` |
+| 🚀 **Entrepreneuriat** | Startups, incubateurs, co-fondateurs | `+startup +Paris +2026` |
+| 🚗 **Véhicules & Logement** | Voitures, colocations, studios | `+étudiant +Paris +2026` |
+| 🛍️ **Discount & Économies** | Codes promo, soldes, avantages | `+valide +2026 +étudiant` |
+| 👤 **Personnes & Conformité** | AML, KYC, PEP, sanctions OFAC/UE | *(opérateurs manuels)* |
 
-### Local
+---
+
+## 📐 Logique des mots-clés
+
+La **virgule** est le seul séparateur entre expressions. Les espaces dans une expression font partie de cette expression :
+
+| Saisie | Requête générée |
+|--------|----------------|
+| `analyste lcbft` | `"analyste lcbft"` |
+| `analyste lcbft, conformité` | `"analyste lcbft" OR "conformité"` |
+| `Jack Pierre, sanctions OFAC` | `"Jack Pierre" OR "sanctions OFAC"` |
+
+### Opérateurs utilisés
+
+| Opérateur | Effet |
+|-----------|-------|
+| `"mot"` | Correspondance exacte |
+| `OR` | Alternative (MAJUSCULES obligatoires) |
+| `+mot` | Mot obligatoirement inclus |
+| `-mot` | Mot à exclure |
+| `site:` | Restriction au domaine |
+
+---
+
+## 🚀 Déploiement
+
+### Streamlit Cloud (recommandé)
+
+1. **Forkez** ce dépôt sur GitHub
+2. Allez sur **[share.streamlit.io](https://share.streamlit.io)**
+3. Sélectionnez votre fork → fichier `app.py` → **Deploy**
+
+### En local
 
 ```bash
-git clone https://github.com/VOTRE_USERNAME/xray-search-pro.git
-cd xray-search-pro
+git clone https://github.com/VOTRE_USERNAME/sniper-search-pro.git
+cd sniper-search-pro/xray-search
 pip install -r requirements.txt
 streamlit run app.py
 ```
 
-## 📐 Comment ça marche
-
-| Paramètre | Effet | Exemple |
-|-----------|-------|---------|
-| **Mots-clés** | `"mot"` avec guillemets, joints par `OR` | `"python" OR "django"` |
-| **Poste** | Expression exacte en tête de requête | `"Data Engineer"` |
-| **Localisation** | Ajouté entre guillemets | `"Paris"` |
-| **Éducation** | Termes de diplôme en alternatif | `"master" OR "bac+5"` |
-| **Employeur** | Nom d'entreprise exact | `"Google"` |
-
-### Opérateurs générés
-
-```
-"mot"    → correspondance exacte
-OR       → alternative (majuscules obligatoires)
-+mot     → mot obligatoirement inclus
--mot     → exclusion
-site:    → restriction au domaine
-```
-
-### Exemple de sortie
-
-**Entrée :** `python, django` · Poste: `Data Engineer` · Lieu: `Paris`
-
-**Requête générée :**
-```
-"Data Engineer" "python" OR "django" "Paris" (site:linkedin.com/in OR site:linkedin.com/pub) -gratuit -avis -forum -PDF -emploi -occasion -wiki -discount
-```
+---
 
 ## 🗂️ Structure du projet
 
 ```
-xray-search-pro/
-├── app.py                  # Application principale Streamlit
-├── requirements.txt        # Dépendances Python
+xray-search/
+├── app.py                  ← Application Streamlit principale
+├── requirements.txt        ← streamlit + reportlab
 ├── .streamlit/
-│   └── config.toml         # Configuration thème sombre
+│   └── config.toml         ← Thème sombre
 └── README.md
 ```
+
+---
+
+## 👤 Onglet Conformité / AML — exemples
+
+```
+# Recherche PEP
+"nom prénom" +PEP OR "politically exposed person" +gouvernement +ministre -forum
+
+# Sanctions OFAC/UE
+"nom prénom" +OFAC OR "SDN list" OR "sanctions list" +USA OR +EU -forum
+
+# Blanchiment / AML
+"nom prénom" +"money laundering" OR "blanchiment" +banque +fraude -forum
+
+# Watchlist complète
+"nom prénom" +OFAC OR +UN OR +EU OR +FATF +sanctions OR "liste noire" -PDF
+```
+
+---
 
 ## 📄 Licence
 
@@ -81,4 +110,4 @@ MIT — libre d'utilisation, modification et redistribution.
 
 ---
 
-*Inspiré de [Recruit'em / RecruitIn](https://recruitin.net) — outil de X-Ray search pour recruteurs*
+*Inspiré de [Recruit'em / RecruitIn](https://recruitin.net) — étendu pour les cas d'usage étudiants et conformité*
