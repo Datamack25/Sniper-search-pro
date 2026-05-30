@@ -1,5 +1,4 @@
 
-cat > /home/claude/xray-search/app.py << 'PYEOF'
 import streamlit as st
 import urllib.parse
 import io
