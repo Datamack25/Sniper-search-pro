@@ -531,12 +531,6 @@ def generate_pdf(result: dict, params: dict) -> bytes:
         fontName="Courier", leading=11,
     )))
 
-    # Variants
-    story.append(Paragraph("VARIANTES PAR OBJECTIF", section_style))
-    for label, query in result["variants"].items():
-        story.append(Paragraph(label, variant_label_style))
-        story.append(Paragraph(query, variant_style))
-
     # Operators guide
     story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor("#2a2a3d"), spaceBefore=20, spaceAfter=12))
     story.append(Paragraph("GUIDE DES OPÉRATEURS UTILISÉS", section_style))
